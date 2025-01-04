@@ -1,0 +1,101 @@
+/* Background Colors */
+.bg-darkBrown {
+    background-color: #4E3629;
+  }
+  
+  .bg-coffeeBean {
+    background-color: #3E2723;
+  }
+  
+  .bg-antiqueGold {
+    background-color: #D4AF37;
+  }
+  
+  .bg-forestGreen {
+    background-color: #2C5F2D;
+  }
+  
+  .bg-burgundy {
+    background-color: #800020;
+  }
+  
+  .bg-charcoal {
+    background-color: #2D2D2D;
+  }
+  
+  .bg-ivory {
+    background-color: #F8F1E5;
+  }
+  
+  /* Text Colors */
+  .text-darkBrown {
+    color: #4E3629;
+  }
+  
+  .text-coffeeBean {
+    color: #3E2723;
+  }
+  
+  .text-antiqueGold {
+    color: #D4AF37;
+  }
+  
+  .text-forestGreen {
+    color: #2C5F2D;
+  }
+  
+  .text-mossGreen {
+    color: #A3B18A;
+  }
+  
+  .text-burgundy {
+    color: #800020;
+  }
+  
+  .text-charcoal {
+    color: #2D2D2D;
+  }
+  
+  .text-ivory {
+    color: #F8F1E5;
+  }
+  
+  .text-softAmber {
+    color: #F4CE8D !important;
+  }
+  
+  a.hover-softAmber:hover {
+    color: #F4CE8D !important;
+  }
+
+  /* Text fonts */
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  body, p {
+    font-family: 'Merriweather', serif;
+  }
+
+  
+  /* Border Colors */
+  .border-darkBrown {
+    border-color: #4E3629;
+  }
+  
+  .border-antiqueGold {
+    border-color: #D4AF37;
+  }
+  
+  .border-forestGreen {
+    border-color: #2C5F2D;
+  }
+  
+  .border-burgundy {
+    border-color: #800020;
+  }
+  
+  .border-charcoal {
+    border-color: #2D2D2D;
+  }
+  

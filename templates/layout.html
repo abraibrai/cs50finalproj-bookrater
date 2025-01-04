@@ -5,15 +5,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}BookRater{% endblock %}</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
         <link href="/static/styles.css" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
+    
     </head>
-    <body class="bg-gray-100 text-gray-900">
+    <body class="bg-ivory text-charcoal">
         <!-- Navigation -->
-        <nav class="bg-blue-600 text-white p-4">
+        <nav class="bg-coffeeBean text-ivory p-4">
             <div class="container mx-auto flex justify-between items-center">
                 <!-- Logo -->
-                <a href="/" class="text-xl font-bold hover:text-blue-300">BookRater</a>
+                <a href="/" class="text-xl font-bold hover:text-softAmber text-ivory">BookRater</a>
                 <!-- Hamburger Icon -->
                 <button id="menu-toggle" class="md:hidden block">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -22,9 +24,9 @@
                 </button>
                 <!-- Links -->
                 <div id="menu" class="hidden md:flex space-x-4">
-                    <a href="/" class="hover:underline">Home</a>
-                    <a href="/books" class="hover:underline">Books</a>
-                    <a href="/about" class="hover:underline">About</a>
+                    <a href="/" class="hover-softAmber">Home</a>
+                    <a href="/books" class="hover-softAmber">Books</a>
+                    <a href="/about" class="hover-softAmber">About</a>
                 </div>
             </div>
         </nav>
@@ -43,7 +45,7 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-gray-800 text-white p-4 mt-10">
+        <footer class="bg-coffeeBean text-ivory p-4 mt-10">
             <p class="text-center">&copy; 2025 BookRater by Abby Braiman</p>
         </footer>
     </body>
