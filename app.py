@@ -32,7 +32,10 @@ with app.app_context():
 
 @app.route("/")
 def index():
+    print("Route '/' is being called")
+    print("Rendering index.html extended from layout.html")
     return render_template("index.html")
+
 
 @app.route("/books", methods=["GET"])
 def get_books():
