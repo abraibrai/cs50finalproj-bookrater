@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '20815ea66562e8d6425cec6f1d7fd551'  # for encryption / decryption
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bookrater.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/abbybraiman/cs50finalproj-bookrater/instance/bookrater.db'
 db = SQLAlchemy(app)
 
 # Define the data model
@@ -34,8 +35,11 @@ with app.app_context():
 def index():
     print("Route '/' is being called")
     print("Rendering index.html extended from layout.html")
-    return render_template("index.html")
-
+    # Get top 100 highest rated books from books table
+    top_books = Book.query.order_by(Book.average_rating.desc()).limit(100).all()
+    if not top_books:
+        print("No books found in the database.")
+    return render_template("index.html", top_books = top_books)
 
 @app.route("/books", methods=["GET"])
 def get_books():

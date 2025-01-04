@@ -1,5 +1,28 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Minimal Test for Inheritance</h1>
+<h1 class="text-3xl font-bold text-center mb-6">Top Rated Books</h1>
+<!-- Scrollable table container -->
+<div class="'overflow-x-auto max-h-96">
+    <table class="min-w-full bg-white border border-gray-300">
+        <thead class="bg-coffeeBean text-ivory">
+            <tr>
+                <th class="py-2 px-4 border-b">Rank</th>
+                <th class="py-2 px-4 border-b">Title</th>
+                <th class="py-2 px-4 border-b">Author</th>
+                <th class="py-2 px-4 border-b">Average Rating</th>
+            </tr>
+        </thead>
+        <tbody class="text-charcoal">
+            {% for book in top_books %}
+            <tr class="hover:bg-gray-200">
+                <td class="py-2 px-4 border-b text-center">{{ loop.index }}</td>
+                <td class="py-2 px-4 border-b">{{ book.title }}</td>
+                <td class="py-2 px-4 border-b">{{ book.author }}</td>
+                <td class="py-2 px-4 border-b text-center">{{ book.average_rating }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

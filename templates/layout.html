@@ -7,8 +7,19 @@
         <title>{% block title %}BookRater{% endblock %}</title>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
         <link href="/static/styles.css" rel="stylesheet">
-        <script src="https://cdn.tailwindcss.com"></script>
-    
+        <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio,line-clamp"></script>
+        <script>
+            tailwind.config = {
+              theme: {
+                extend: {
+                  colors: {
+                    ivory: '#F8F1E5',
+                    softAmber: '#F4CE8D',
+                  },
+                },
+              },
+            };
+          </script>          
     </head>
     <body class="bg-ivory text-charcoal">
         <!-- Navigation -->
@@ -18,10 +29,10 @@
                 <a href="/" class="text-xl font-bold hover:text-softAmber text-ivory">BookRater</a>
                 <!-- Hamburger Icon -->
                 <button id="menu-toggle" class="md:hidden block">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6 stroke-ivory hover:stroke-softAmber" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                     </svg>
-                </button>
+                </button>                
                 <!-- Links -->
                 <div id="menu" class="hidden md:flex space-x-4">
                     <a href="/" class="hover-softAmber">Home</a>
