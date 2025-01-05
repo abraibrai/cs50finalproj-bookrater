@@ -3,7 +3,7 @@
 {% block content %}
 <h1 class="text-3xl font-bold text-center mb-6">Top Rated Books</h1>
 <!-- Scrollable table container -->
-<div class="'overflow-x-auto max-h-96">
+<div class="overflow-x-auto h-[calc(100vh-6rem)] overflow-y-auto">
     <table class="min-w-full bg-white border border-gray-300">
         <thead class="bg-coffeeBean text-ivory">
             <tr>
@@ -17,7 +17,9 @@
             {% for book in top_books %}
             <tr class="hover:bg-gray-200">
                 <td class="py-2 px-4 border-b text-center">{{ loop.index }}</td>
-                <td class="py-2 px-4 border-b">{{ book.title }}</td>
+                <td class="py-2 px-4 border-b">
+                    <a href="https://www.google.com/search?q={{ book.isbn }}" class="book-title" data-isbn="{{ book.isbn }}">{{ book.title }}</a>
+                </td>
                 <td class="py-2 px-4 border-b">{{ book.author }}</td>
                 <td class="py-2 px-4 border-b text-center">{{ book.average_rating }}</td>
             </tr>

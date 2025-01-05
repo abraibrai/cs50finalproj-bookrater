@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}BookRater{% endblock %}</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
         <link href="/static/styles.css" rel="stylesheet">
         <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio,line-clamp"></script>
@@ -59,5 +60,7 @@
         <footer class="bg-coffeeBean text-ivory p-4 mt-10">
             <p class="text-center">&copy; 2025 BookRater by Abby Braiman</p>
         </footer>
+        <!-- Link to Scripts -->
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     </body>
 </html>

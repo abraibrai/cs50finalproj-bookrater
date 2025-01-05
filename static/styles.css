@@ -68,6 +68,14 @@
     color: #F4CE8D !important;
   }
 
+  table a {
+    text-decoration: underline;
+  }
+
+  table a:hover {
+    color: #F4CE8D;
+  }
+
   /* Text fonts */
   h1, h2, h3 {
     font-family: 'Playfair Display', serif;
@@ -99,3 +107,17 @@
     border-color: #2D2D2D;
   }
   
+/* Body Flexboxing */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
+}
