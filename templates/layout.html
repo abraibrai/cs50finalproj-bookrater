@@ -36,9 +36,15 @@
                 </button>                
                 <!-- Links -->
                 <div id="menu" class="hidden md:flex space-x-4">
-                    <a href="/" class="hover-softAmber">Home</a>
-                    <a href="/books" class="hover-softAmber">Books</a>
-                    <a href="/about" class="hover-softAmber">About</a>
+                    {% if session["user_id"] %}
+                        <a href="/" class="hover-softAmber">Home</a>
+                        <a href="/books" class="hover-softAmber">My Books</a>
+                        <a href="/logout" class="hover-softAmber">Log Out</a>
+                    {% else %}
+                        <a href="/" class="hover-softAmber">Home</a>
+                        <a href="/login" class="hover-softAmber">Log In</a>
+                        <a href="/register" class="hover-softAmber">Register</a>
+                    {% endif %}
                 </div>
             </div>
         </nav>

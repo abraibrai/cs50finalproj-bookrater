@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
-
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '20815ea66562e8d6425cec6f1d7fd551'  # for encryption / decryption
@@ -18,6 +19,7 @@ class Book(db.Model):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String, nullable=False, unique=True)
     hash = db.Column(db.String(100), nullable=False)
     # Relationship to user_books
     books = db.relationship('User_Books', backref='user')
@@ -40,6 +42,49 @@ def index():
     if not top_books:
         print("No books found in the database.")
     return render_template("index.html", top_books = top_books)
+
+@app.route("/register", methods=["GET","POST"])
+def register():
+    # User reached via POST (submitted a form)
+    # User reached via GET (clicking a link / redirect)
+    pass
+
+@app.route("/login", methods=["GET","POST"])
+def login():
+    # Clear any existing session
+    session.clear()
+    # User reached via POST (submitted a form)
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        # Ensure username submitted
+        if not username:
+            return "Username is required", 400
+        
+        # Ensure password submitted
+        if not password:
+            return "Password is required", 400
+
+        # Query database for username
+        user = User.query.filter_by(username=username).first()
+        if not user or not check_password_hash(user.hash, password):
+            return "Invalid username or password", 500
+        
+        # Remember which user has logged in
+        session["user_id"] = user.id
+
+        # Return to main
+        return redirect(url_for("index"))
+
+    # User reached via GET (clicking a link / redirect)
+    else:
+        return render_template("login.html")
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    # Automatically clear the session upon click
+    # Return to index.html
+    pass
 
 @app.route("/books", methods=["GET"])
 def get_books():
