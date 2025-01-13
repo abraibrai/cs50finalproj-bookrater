@@ -88,8 +88,24 @@ def logout():
 
 @app.route("/books", methods=["GET"])
 def get_books():
-    # Route to fetch books
-    pass
+    # Get books read by a user from user_books table
+    user_books = db.session.query(
+        Book.isbn,
+        Book.title,
+        Book.author,
+        User_Books.user_rating
+    ).join(
+        Book, Book.isbn == User_Books.isbn
+    ).filter(
+        User_Books.user_id == session["user_id"]
+    ).order_by(
+        User_Books.user_rating.desc()
+    ).all()
+    
+    if not user_books:
+        print("No books for the user found in the database.")
+    
+    return render_template("books.html", user_books = user_books)
 
 @app.route("/rate", methods=["POST"])
 def rate_book():
