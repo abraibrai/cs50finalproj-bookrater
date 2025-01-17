@@ -129,3 +129,19 @@ thead.sticky {
     top: 0;
     z-index: 10;
 }
+
+/* Button Styling */
+.button-darkBrown {
+  background-color: #4E3629;
+  color: #F8F1E5;
+}
+
+.button-darkBrown:hover {
+  background-color: #800020;
+  border-color: #D4AF37;
+}
+
+.button-darkBrown:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
