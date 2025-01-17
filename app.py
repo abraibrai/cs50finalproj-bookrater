@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -48,6 +48,10 @@ def register():
     # User reached via POST (submitted a form)
     if request.method=="POST":
         # Confirm a username provided
+        username = request.form.get("username")
+        if not username:
+            flash("Username is required", "error")
+            return redirect(url_for("register"))
         # Confirm a password provided
         # Confirm password confirmation provided
         # Confirm username is not taken

@@ -19,18 +19,30 @@ document.querySelectorAll('.book-title').forEach(function (element) {
     });
 });
 
-// Function to throw an error modal
-function showErrorModal(errorMessage) {
+// Function to show error modal
+function showErrorModal(message) {
     const modal = document.getElementById("errorModal");
     const modalMessage = document.getElementById("errorMessage");
 
     modal.style.display = "block";
-    modalMessage.textContent = errorMessage;
+    modalMessage.textContent = message;
 
     // Close modal when clicking outside the modal
-    window.onclick = function(event) {
+    modal.onclick = function(event) {
         if (event.target === modal) {
             modal.style.display = "none";
         }
     };
+
+    // Close button logic
+    const closeButton = modal.querySelector("button");
+    closeButton.onclick = function() {
+        modal.style.display = "none";
+    };
 }
+
+// Check if there are any flash messages and show modal if there are
+if (window.flashMessages && window.flashMessages.length > 0) {
+    showErrorModal(window.flashMessages[0]); // Show the first message
+}
+

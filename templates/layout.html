@@ -67,16 +67,43 @@
             <p class="text-center">&copy; 2025 BookRater by Abby Braiman</p>
         </footer>
         
-        <!-- Link to Scripts -->
-        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-        <!-- Error Modal HTML -->
+        <!-- Flash Message Modal -->
         <div id="errorModal" class="modal fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50" style="display: none;">
             <div class="modal-content bg-white p-6 rounded-lg w-1/3">
                 <h2 class="text-lg font-bold text-center mb-4">Error</h2>
-                <p id="errorMessage" class="text-center mb-4">This is an error message.</p>
+                <p id="errorMessage" class="text-center mb-4">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <span>{{ message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </p>
                 <!-- Close button -->
                 <button class="mt-4 bg-red-500 text-white px-4 py-2 rounded w-full" onclick="document.getElementById('errorModal').style.display='none'">Close</button>
             </div>
         </div>
+        
+        <!-- Flash Messages in hidden div for JS -->
+        <div id="flashMessages" style="display: none;">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {{ messages[0] }}  <!-- Get only the first message -->
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Error modal script -->
+        <script>
+            // Pass flash messages to JavaScript and show the error modal
+            var flashMessages = document.getElementById("flashMessages").textContent;
+            if (flashMessages) {
+                showErrorModal(flashMessages); // Call the modal function to show the message
+            }
+        </script>
+ 
+        <!-- Load script file -->
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     </body>
 </html>
