@@ -18,3 +18,19 @@ document.querySelectorAll('.book-title').forEach(function (element) {
         searchBookByISBN(isbn);
     });
 });
+
+// Function to throw an error modal
+function showErrorModal(errorMessage) {
+    const modal = document.getElementById("errorModal");
+    const modalMessage = document.getElementById("errorMessage");
+
+    modal.style.display = "block";
+    modalMessage.textContent = errorMessage;
+
+    // Close modal when clicking outside the modal
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+}
