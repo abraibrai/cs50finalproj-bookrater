@@ -46,8 +46,19 @@ def index():
 @app.route("/register", methods=["GET","POST"])
 def register():
     # User reached via POST (submitted a form)
+    if request.method=="POST":
+        # Confirm a username provided
+        # Confirm a password provided
+        # Confirm password confirmation provided
+        # Confirm username is not taken
+        # Confirm password confirmation matches provided password
+        # Register user
+        # Return to main
+        return redirect(url_for("index"))
+
     # User reached via GET (clicking a link / redirect)
-    pass
+    else:
+        return render_template("register.html")
 
 @app.route("/login", methods=["GET","POST"])
 def login():

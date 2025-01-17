@@ -1,1 +1,20 @@
 {% extends "layout.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post">
+        <div class="mb-4">
+            <input autocomplete="off" autofocus class="px-4 py-2 border rounded-md mx-auto w-auto" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-4">
+            <input class="px-4 py-2 border rounded-md mx-auto w-auto" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="mb-4">
+            <input class="px-4 py-2 border rounded-md mx-auto w-auto" name="confirmation" placeholder="Retype Password" type="password">
+        </div>
+        <button class="px-4 py-2 focus:outline-none focus:ring-2" type="submit">Register</button>
+    </form>
+{% endblock %}
