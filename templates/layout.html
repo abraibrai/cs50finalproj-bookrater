@@ -40,7 +40,9 @@
                         <a href="/" class="hover-softAmber">Home</a>
                         <a href="/books" class="hover-softAmber">My Books</a>
                         <a href="/rate" class="hover-softAmber">Rate</a>
-                        <a href="/logout" class="hover-softAmber">Log Out</a>
+                        <form action="{{ url_for('logout') }}" method="POST">
+                            <button type="submit" class="hover-softAmber">Log Out</button>
+                        </form>
                     {% else %}
                         <a href="/" class="hover-softAmber">Home</a>
                         <a href="/login" class="hover-softAmber">Log In</a>

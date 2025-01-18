@@ -95,7 +95,7 @@ def register():
 @app.route("/login", methods=["GET","POST"])
 def login():
     # Clear any existing session
-    session.clear()
+    # session.clear()
     # User reached via POST (submitted a form)
     if request.method == "POST":
         username = request.form.get("username")
@@ -118,7 +118,7 @@ def login():
         
         # Remember which user has logged in
         session["user_id"] = user.id
-
+        print(f"Session user_id after login: {session.get('user_id')}")
         # Return to main
         return redirect(url_for("index"))
 
