@@ -204,7 +204,7 @@ def add_book():
     
     if not isbn:
         flash("No ISBN found for this book.", "error")
-        return redirect(url_for("books"))
+        return redirect(url_for("get_books"))
     
     # Check if the book already exists in the database based on ISBN
     existing_book_by_isbn = Book.query.filter_by(isbn=isbn).first()
