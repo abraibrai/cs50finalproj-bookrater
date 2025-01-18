@@ -138,15 +138,10 @@ def logout():
 def get_books():
     # Get books read by a user from user_books table
     user_books = db.session.query(
-        Book.isbn,
         Book.title,
         Book.author,
         User_Books.user_rating
-    ).join(
-        Book, Book.isbn == User_Books.isbn
-    ).filter(
-        User_Books.user_id == session["user_id"]
-    ).order_by(
+    ).join(Book).filter(User_Books.id == session["user_id"]).order_by(
         User_Books.user_rating.desc()
     ).all()
     
