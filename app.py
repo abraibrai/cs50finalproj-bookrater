@@ -102,16 +102,19 @@ def login():
         password = request.form.get("password")
         # Ensure username submitted
         if not username:
-            return "Username is required", 400
+            flash("Username is required", "error")
+            return redirect(url_for("login"))
         
         # Ensure password submitted
         if not password:
-            return "Password is required", 400
+            flash("Password is required", "error")
+            return redirect(url_for("login"))
 
         # Query database for username
         user = User.query.filter_by(username=username).first()
         if not user or not check_password_hash(user.hash, password):
-            return "Invalid username or password", 500
+            flash("Invalid username or password", "error")
+            return redirect(url_for("login"))
         
         # Remember which user has logged in
         session["user_id"] = user.id
