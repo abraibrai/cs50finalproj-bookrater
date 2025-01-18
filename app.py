@@ -52,23 +52,39 @@ def register():
         if not username:
             flash("Username is required", "error")
             return redirect(url_for("register"))
+        
         # Confirm a password provided
         password = request.form.get("password")
         if not password:
             flash("Password is required", "error")
             return redirect(url_for("register"))
+        
         # Confirm password confirmation provided
         confirmation = request.form.get("confirmation")
         if not confirmation:
             flash("Password confirmation is required", "error")
             return redirect(url_for("register"))
+        
         # Confirm username is not taken
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            flash("Username is already taken", "error")
+            return redirect(url_for("register"))
+        
         # Confirm password confirmation matches provided password
         if password != confirmation:
             flash("Passwords do not match", "error")
             return redirect(url_for("register"))
+        
         # Hash password
+        hashed_password = generate_password_hash(password)
+        
         # Register user
+        new_user = User(username=username, hash = hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("User registered successfully!", "success")
+        
         # Return to main
         return redirect(url_for("index"))
 
