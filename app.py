@@ -126,7 +126,7 @@ def login():
     else:
         return render_template("login.html")
 
-@app.route("/logout", methods=["GET"])
+@app.route("/logout", methods=["POST"])
 def logout():
     # Automatically clear the session upon click
     session.clear()
