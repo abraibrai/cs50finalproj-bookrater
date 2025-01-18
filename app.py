@@ -53,9 +53,21 @@ def register():
             flash("Username is required", "error")
             return redirect(url_for("register"))
         # Confirm a password provided
+        password = request.form.get("password")
+        if not password:
+            flash("Password is required", "error")
+            return redirect(url_for("register"))
         # Confirm password confirmation provided
+        confirmation = request.form.get("confirmation")
+        if not confirmation:
+            flash("Password confirmation is required", "error")
+            return redirect(url_for("register"))
         # Confirm username is not taken
         # Confirm password confirmation matches provided password
+        if password != confirmation:
+            flash("Passwords do not match", "error")
+            return redirect(url_for("register"))
+        # Hash password
         # Register user
         # Return to main
         return redirect(url_for("index"))
