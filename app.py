@@ -126,11 +126,13 @@ def login():
     else:
         return render_template("login.html")
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout", methods=["GET"])
 def logout():
     # Automatically clear the session upon click
+    session.clear()
+    flash("You've successfully logged out", "success")
     # Return to index.html
-    pass
+    return redirect(url_for("index"))
 
 @app.route("/books", methods=["GET"])
 def get_books():
