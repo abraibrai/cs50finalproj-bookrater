@@ -1,6 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
+<form action="/addbook" method="post">
+    <div class="mb-4">
+        <input autocomplete="off" autofocus class="px-4 py-2 border rounded-md mx-auto w-auto" name="title" placeholder="Title" type="text">
+    </div>
+    <div class="mb-4">
+        <input class="px-4 py-2 border rounded-md mx-auto w-auto" name="author" placeholder="Author" type="text">
+    </div>
+    <button class="button-darkBrown px-4 py-2 rounded-md" type="submit">Add Book</button>
+</form>
+
 <h1 class="text-3xl font-bold text-center mb-6">Your Read Books</h1>
 <!-- Scrollable table container -->
 <div class="overflow-x-auto h-[calc(100vh-6rem)] overflow-y-auto">

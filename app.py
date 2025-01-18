@@ -1,3 +1,4 @@
+import requests
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -149,6 +150,79 @@ def get_books():
         print("No books for the user found in the database.")
     
     return render_template("books.html", user_books = user_books)
+
+@app.route("/addbook", methods=["POST"])
+def add_book():
+    # Get form data
+    title = request.form.get("title")
+    author = request.form.get("author")
+    
+    # Ensure title and author are provided
+    if not title or not author:
+        flash("Both title and author are required.", "error")
+        return redirect(url_for("get_books"))
+    
+    # Normalize the input (case insensitive and strip extra spaces)
+    title_normalized = title.strip().lower()
+    author_normalized = author.strip().lower()
+    
+    # Check if the book already exists in the database by normalized title and author
+    existing_book = Book.query.filter(
+        db.func.lower(Book.title) == title_normalized,
+        db.func.lower(Book.author) == author_normalized
+    ).first()
+    
+    if existing_book:
+        # If the book is already in the database, associate it with the user
+        user_book = User_Books(id=session["user_id"], isbn=existing_book.isbn, user_rating=1)
+        db.session.add(user_book)
+        db.session.commit()
+        flash("Book added successfully!", "success")
+        return redirect(url_for("get_books"))
+    
+    # If book is not found in the database, query the Google Books API
+    google_books_url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{title_normalized}+inauthor:{author_normalized}&maxResults=1"
+    response = requests.get(google_books_url)
+    
+    if response.status_code != 200:
+        flash("Error connecting to Google Books API.", "error")
+        return redirect(url_for("get_books"))
+    
+    data = response.json()
+    
+    if not data["items"]:
+        flash("No matching books found.", "error")
+        return redirect(url_for("get_books"))
+    
+    # Get the ISBN from the Google Books API response
+    book_info = data["items"][0]["volumeInfo"]
+    isbn = None
+    for identifier in book_info.get("industryIdentifiers", []):
+        if identifier["type"] == "ISBN_13":
+            isbn = identifier["identifier"]
+            break
+    
+    if not isbn:
+        flash("No ISBN found for this book.", "error")
+        return redirect(url_for("books"))
+    
+    # Check if the book already exists in the database based on ISBN
+    existing_book_by_isbn = Book.query.filter_by(isbn=isbn).first()
+    
+    if not existing_book_by_isbn:
+        # Create the new book record if not found
+        new_book = Book(isbn=isbn, title=title, author=author)
+        db.session.add(new_book)
+        db.session.commit()
+    
+    # Add the user-book association
+    user_book = User_Books(id=session["user_id"], isbn=isbn, user_rating=1)
+    db.session.add(user_book)
+    db.session.commit()
+    
+    flash("Book added successfully!", "success")
+    return redirect(url_for("books"))
+
 
 @app.route("/rate", methods=["POST"])
 def rate_book():
