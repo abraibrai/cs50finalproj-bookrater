@@ -221,13 +221,61 @@ def add_book():
     db.session.commit()
     
     flash("Book added successfully!", "success")
-    return redirect(url_for("books"))
+    return redirect(url_for("get_books"))
 
 
-@app.route("/rate", methods=["POST"])
-def rate_book():
-    # Route to submit ratings
-    pass
+@app.route("/rate", methods=["GET", "POST"])
+def rate():
+    # If reached via POST
+    if request.method=="POST":
+        rated_book_isbn = request.form.get("book")
+        rated_book_rating = request.form.get("rating")
+
+        print(f"Rated Book ISBN: {rated_book_isbn}")
+        print(f"Rated Book Rating: {rated_book_rating}")
+
+        # Validate that both fields are submitted
+        if not rated_book_isbn or not rated_book_rating:
+            flash("Please select a book and a rating.","error")
+            return redirect(url_for("rate"))
+        
+        # Convert rating to a float
+        rated_book_rating = float(rated_book_rating)
+
+        # Get book from database via ISBN
+        book = Book.query.filter_by(isbn=rated_book_isbn).first()
+        if not book:
+            flash("Selected book not found","error")
+            return redirect(url_for("rate"))
+
+        # Check if user has already rated the book
+        user_book = User_Books.query.filter_by(isbn=rated_book_isbn, id=session["user_id"]).first()
+        if user_book:
+            # If already rated, update rating
+            user_book.user_rating = rated_book_rating
+        else:
+            # If not already updated, add new entry
+            user_book = User_Books(id=session["user_id"], isbn=rated_book_isbn, user_rating=rated_book_rating)
+            db.session.add(user_book)
+
+        db.session.commit()
+
+        # Redirect to books
+        flash("Book successfully rated!","success")
+        return redirect(url_for("get_books"))
+
+    # If reached via GET
+    else:
+        # Get books read by a user from user_books table
+        user_books = db.session.query(
+            Book.title,
+            Book.author,
+            Book.isbn,
+            User_Books.user_rating
+        ).join(Book).filter(User_Books.id == session["user_id"]).order_by(
+            User_Books.user_rating.desc()
+        ).all()
+        return render_template("rate.html", user_books = user_books)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -3,14 +3,14 @@
 {% block content %}
 <form action="/rate" method="post">
     <div class="mb-4">
-        <select>
+        <select name="book">
             {% for book in user_books %}
             <option value="{{ book.isbn }}">{{ book.title }} by {{ book.author }}</option>
             {% endfor %}
         </select>
     </div>
     <div class="mb-4">
-        <select>
+        <select name="rating">
             {% for rating in range (1,11) %}
                 <option value="{{ rating }}">{{ rating }}</option>
             {% endfor %}
