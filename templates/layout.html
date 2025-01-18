@@ -89,25 +89,25 @@
         <div id="flashMessages" style="display: none;">
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                    {{ messages[0] }} <!-- Show the first message if present -->
+                    {{ messages[0] | escape }} <!-- Show the first message if present -->
                 {% endif %}
             {% endwith %}
         </div>
+
+        <!-- Load script file -->
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 
         <!-- Error modal script -->
         // Error modal script
         <script>
             // Get flash messages from the hidden div
             var flashMessages = document.getElementById("flashMessages").textContent.trim();
+            console.log(flashMessages);
 
             if (flashMessages) {
                 // If there are flash messages, show the error modal
                 showErrorModal(flashMessages);
             }
         </script>
-
- 
-        <!-- Load script file -->
-        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     </body>
 </html>
