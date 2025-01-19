@@ -14,7 +14,7 @@ class Book(db.Model):
     isbn = db.Column(db.String(13), primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     author = db.Column(db.String(100), nullable=False)
-    average_rating = db.Column(db.Float, default=0.0)
+    average_rating = db.Column(db.Float, nullable=True)
     # Relationship to user books
     user_books = db.relationship('User_Books', backref='book')
 
@@ -28,7 +28,7 @@ class User(db.Model):
 class User_Books(db.Model):
     id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     isbn = db.Column(db.String(13), db.ForeignKey('book.isbn'), primary_key=True)
-    user_rating = db.Column(db.Float, db.CheckConstraint('user_rating >= 1 AND user_rating <= 10'), default=0.0)
+    user_rating = db.Column(db.Float, nullable=True)
 
 # Create the database and tables (only creates if doesn't already exist)
 with app.app_context():
@@ -174,7 +174,7 @@ def add_book():
     
     if existing_book:
         # If the book is already in the database, associate it with the user
-        user_book = User_Books(id=session["user_id"], isbn=existing_book.isbn, user_rating=1)
+        user_book = User_Books(id=session["user_id"], isbn=existing_book.isbn)
         db.session.add(user_book)
         db.session.commit()
         flash("Book added successfully!", "success")
@@ -216,7 +216,7 @@ def add_book():
         db.session.commit()
     
     # Add the user-book association
-    user_book = User_Books(id=session["user_id"], isbn=isbn, user_rating=1)
+    user_book = User_Books(id=session["user_id"], isbn=isbn)
     db.session.add(user_book)
     db.session.commit()
     
@@ -239,8 +239,15 @@ def rate():
             flash("Please select a book and a rating.","error")
             return redirect(url_for("rate"))
         
-        # Convert rating to a float
-        rated_book_rating = float(rated_book_rating)
+        # Convert rating to a float and validate
+        try:
+            rated_book_rating = float(rated_book_rating)
+            if rated_book_rating <1 or rated_book_rating > 10:
+                flash("Rating must be between 1 and 10.","error")
+                return redirect(url_for("rate"))
+        except ValueError:
+            flash("Invalid rating value.","error")
+            return redirect(url_for("rate"))
 
         # Get book from database via ISBN
         book = Book.query.filter_by(isbn=rated_book_isbn).first()
@@ -258,6 +265,14 @@ def rate():
             user_book = User_Books(id=session["user_id"], isbn=rated_book_isbn, user_rating=rated_book_rating)
             db.session.add(user_book)
 
+        # Update the average rating in the Book table
+        all_ratings = db.session.query(User_Books.user_rating).filter_by(isbn=rated_book_isbn).all()
+        if all_ratings:
+            average_rating = sum([rating[0] for rating in all_ratings]) / len(all_ratings)
+        else:
+            average_rating = None
+
+        book.average_rating = average_rating
         db.session.commit()
 
         # Redirect to books
